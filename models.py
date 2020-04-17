@@ -147,24 +147,29 @@ class TSN(nn.Module):
         '''
         num_class = 42
         feature_dim = self.feature_dim
-        # self.base_model = torch.nn.Sequential(*(list(self.base_model.children())[:-1]))
         setattr(self.base_model, self.base_model.last_layer_name, nn.Dropout(p=self.dropout))
         std = 0.001
         self.new_fc = nn.Linear(feature_dim, self.img_feature_dim)
         normal(self.new_fc.weight, 0, std)
-        constant(self.new_fc.bias, 0)        
+        constant(self.new_fc.bias, 0)    
+        
+        self.consensus = TRNmodule.return_TRN(self.consensus_type, self.img_feature_dim, self.num_segments, num_class)
+
+        if not self.before_softmax:
+            self.softmax = nn.Softmax()
+
         '''
         
         super(TSN, self).train(mode)
         count = 0
 
         # set untrainable
-        '''
+        #'''
         for m in self.base_model.modules():
             if hasattr(m,'weight'):
                 m.weight.requires_grad = False
                 m.bias.requires_grad = False
-        '''
+        #'''
         #########
 
         if self._enable_pbn:
