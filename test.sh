@@ -3,7 +3,7 @@
 #video name, json named by your UIN
 GIT_REPO_URL="https://github.com/b01901143/TRN-pytorch.git"
 REPO="TRN-pytorch"
-VIDEO="sample1.mp4"
+VIDEO="sample3.mp4"
 UIN_JSON="529005673.json"
 UIN_JPG="529005673.jpg"
 git clone $GIT_REPO_URL
