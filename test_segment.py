@@ -129,18 +129,19 @@ ff_res = subprocess.run(["ffprobe", "-v", "error", "-show_entries",
                          stderr=subprocess.STDOUT)
 video_length = float(ff_res.stdout)
 index = categories.index("slipping")
+index_d = categories.index("dropping")
 
 duration = 1.0
-fps = 1./30
+fps = 1./10
 pivot = 0.
 
 result = {}
 result["slipping"] = []
 
-while pivot + 1 < video_length:
-    print(pivot, pivot+1)
+while pivot + duration < video_length:
+    print(pivot, pivot+duration)
     with VideoFileClip(args.video_file) as video:
-        new = video.subclip(pivot, pivot+1)
+        new = video.subclip(pivot, pivot+duration)
         new.write_videofile("ss.mp4", audio_codec='aac')
     frames = extract_frames("ss.mp4", args.test_segments)
 
@@ -155,7 +156,7 @@ while pivot + 1 < video_length:
 
     # Output the prediction.
 
-    result["slipping"].append([pivot, h_x[index].item()])
+    result["slipping"].append([pivot, h_x[index].item()+h_x[index_d].item()])
     # print(result)
 
     pivot += fps
