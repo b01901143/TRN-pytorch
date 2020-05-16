@@ -16,5 +16,6 @@ for pair in result["slipping"]:
 plt.plot(time, prob, 'o-')
 plt.title("Prediction Timeline for Sample")
 plt.ylabel('Probability')
+plt.ylim(0,1)
 plt.xlabel('time (sec.)')
 plt.savefig(sys.argv[2])
